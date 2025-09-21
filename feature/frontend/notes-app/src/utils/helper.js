@@ -11,3 +11,9 @@ export const validateUsername = (username) => {
 export const validateConfirmPassword = (password, confirmPassword) => {
   return password === confirmPassword;
 }   
+
+export const getInitials = (name) => {
+  const names = name.split(' ');
+  const initials = names.map(n => n.charAt(0).toUpperCase()).join('');
+  return initials;
+}

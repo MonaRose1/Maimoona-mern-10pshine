@@ -1,7 +1,14 @@
 import React from 'react';
 import './navbar.css';
 import { Link } from 'react-router-dom';
+import ProfileInfo from './ProfileInfo';
+import { useNavigate } from 'react-router-dom';
 const Navbar = () => {
+  const navigate = useNavigate();
+  const onLogout = () => {
+    navigate ('/login');
+  };
+
   return (
     <div className="navbar">
       {/* Left: Logo/Brand */}
@@ -15,8 +22,9 @@ const Navbar = () => {
         <li><Link path="/login">Login</Link></li>
         <li><Link to="/signup">Signup</Link></li>
       </ul>
+      <ProfileInfo onLogout={onLogout} />
     </div>
   )
 }
 
-export default Navbar
+export default Navbar;
