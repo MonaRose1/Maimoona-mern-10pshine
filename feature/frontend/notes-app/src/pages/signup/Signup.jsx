@@ -1,6 +1,7 @@
 import React,{ useState } from 'react';
 import { validateEmail, validatePassword, validateUsername, validateConfirmPassword, apiRequest } from '../../utils/helper';
 import { useNavigate, Link } from 'react-router-dom';
+import ErrorMessage from '../../components/ErrorMessage.jsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const Signup = () => {
     const [username, setUsername] = useState('');
@@ -80,7 +81,7 @@ const Signup = () => {
                 </span>
                 </div>
 
-                    {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+                    <ErrorMessage message={error} />
 
                 <button className="btn-primary" disabled={loading}>{loading ? 'Submitting...' : 'Submit'}</button>
                 <p className= "text-gray-600 text-sm mt-5">Already have an account? <Link to='/login'> Log in</Link></p>
