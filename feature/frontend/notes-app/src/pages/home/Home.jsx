@@ -5,6 +5,8 @@ import SearchBar from '../../components/searchbar';
 import NoteCard from '../../components/NoteCard';
 import { apiRequest } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../../components/Loading.jsx';
+import ErrorMessage from '../../components/ErrorMessage.jsx';
 const Home = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [notes, setNotes] = useState([]);
@@ -41,8 +43,8 @@ const Home = () => {
     handleSearch={handleSearch}
     onClearSearch={handleClearSearch}
     />
-    {loading && <p className='p-4'>Loading notes...</p>}
-    {error && <p className='p-4 text-red-500'>{error}</p>}
+    {loading && <Loading text="Loading notes..." />}
+    <ErrorMessage message={error} />
     <div className='grid gap-4 p-4'>
       {notes
         .filter(n => !searchQuery || (n.title || '').toLowerCase().includes(searchQuery.toLowerCase()))
