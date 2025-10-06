@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { apiRequest } from '../utils/helper';
+import Loading from './Loading.jsx';
+import ErrorMessage from './ErrorMessage.jsx';
 
 const NoteEditor = () => {
   const { id } = useParams();
@@ -58,8 +60,8 @@ const NoteEditor = () => {
 
   return (
     <div className="p-4">
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500 mb-2">{error}</p>}
+      {loading && <Loading />}
+      <ErrorMessage message={error} />
       <input ref={titleRef} type="text" placeholder="Title" className="w-full border p-2 mb-3" />
       <div
         ref={contentRef}
