@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { validateEmail, apiRequest, saveToken } from '../../utils/helper';
 import { useNavigate, Link } from 'react-router-dom';
+import ErrorMessage from '../../components/ErrorMessage.jsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const Login = () => {
@@ -66,7 +67,7 @@ const Login = () => {
             </span>
             </div>
 
-          {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
+          <ErrorMessage message={error} />
           <button className='btn-primary' disabled={loading}>{loading ? 'Logging in...' : 'Login'}</button>
           <p className="text-gray-600 text-sm mt-5">Don't have an account? <Link to='/signup'> Sign up</Link></p>
         </form>
