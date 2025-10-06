@@ -1,10 +1,11 @@
 import React from 'react';
+import { verifyPin } from '../utils/secret';
 
 const SecretSearchBar = ({ value, onChange, onClearSearch, onSecretUnlock, secretPin }) => {
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const next = e.target.value;
     onChange(next);
-    if (secretPin && next === secretPin) {
+    if (next && await verifyPin(next)) {
       onSecretUnlock();
     }
   };
