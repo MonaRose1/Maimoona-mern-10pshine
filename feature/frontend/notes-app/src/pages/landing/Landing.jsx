@@ -151,7 +151,7 @@ const CTA = () => (
   <section className="mn-cta-section">
     <h3 className="mn-cta__title">Start organizing your thoughts today.</h3>
     <div className="mn-cta__actions">
-      <Link to="/signup" className="mn-btn mn-btn--gradient mn-btn--lg">Get Started — It’s Free</Link>
+      <Link to="/signup" className="mn-btn mn-btn--gradient mn-btn--lg">Get Started — It's Free</Link>
       <Link to="/login" className="mn-link mn-link--muted">Already have an account? Log in</Link>
     </div>
     <p className="mn-cta__sub">Your notes stay private and accessible anywhere.</p>
@@ -164,9 +164,9 @@ const Footer = () => (
       <div className="mn-footer__brand">MonaNotes</div>
       <div className="mn-footer__tag">Built with ❤️ by Mona DevDizayn</div>
       <div className="mn-footer__social">
-        <a href="#" aria-label="Instagram" className="mn-social"></a>
-        <a href="#" aria-label="GitHub" className="mn-social"></a>
-        <a href="#" aria-label="LinkedIn" className="mn-social"></a>
+        <a href="#" aria-label="Instagram" className="mn-social">📷</a>
+        <a href="#" aria-label="GitHub" className="mn-social">🐙</a>
+        <a href="#" aria-label="LinkedIn" className="mn-social">💼</a>
       </div>
     </div>
     <div className="mn-footer__copy">© 2025 MonaNotes. All rights reserved.</div>
