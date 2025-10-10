@@ -1,8 +1,11 @@
 import React from 'react';
 
-const Loading = ({ text = 'Loading...' }) => {
+const Loading = ({ message = "Loading..." }) => {
   return (
-    <div className="p-4 text-gray-600">{text}</div>
+    <div className="loading">
+      <div className="loading-spinner"></div>
+      <p className="loading-text">{message}</p>
+    </div>
   );
 };
 

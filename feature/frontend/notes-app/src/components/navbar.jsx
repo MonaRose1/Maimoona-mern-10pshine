@@ -1,32 +1,28 @@
 import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import './navbar.css';
-import { Link } from 'react-router-dom';
-import ProfileInfo from './ProfileInfo';
-import { useNavigate } from 'react-router-dom';
+
 const Navbar = () => {
   const navigate = useNavigate();
-  const onLogout = () => {
-    try {
-      localStorage.removeItem('token');
-    } catch (e) {}
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
     navigate('/login');
   };
 
   return (
-    <div className="navbar">
-      {/* Left: Logo/Brand */}
-      <div className="navbar-left">
-        <p className='text-2xl font-bold'>notifier</p>
+    <nav className="navbar">
+      <div className="navbar-brand">
+        <Link to="/home">MonaNotes</Link>
       </div>
-      {/* Center: Links */}
-      <ul className="navbar-links">
-        <li><Link to="/home">Home</Link></li>
-        <li><Link to="/profile">Profile</Link></li>
-        <li><button onClick={onLogout} className="text-blue-600">Logout</button></li>
-      </ul>
-      <ProfileInfo onLogout={onLogout} />
-    </div>
-  )
-}
+      <div className="navbar-menu">
+        <Link to="/home" className="navbar-item">Home</Link>
+        <button onClick={handleLogout} className="navbar-item logout-btn">
+          Logout
+        </button>
+      </div>
+    </nav>
+  );
+};
 
 export default Navbar;

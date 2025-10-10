@@ -11,7 +11,8 @@
   --mn-radius: 1rem;
 }
 * { box-sizing: border-box; }
-.mn-page { background: var(--mn-bg); color: var(--mn-text); min-height: 100vh; }
+body { margin: 0; padding: 0; width: 100%; }
+.mn-page { background: var(--mn-bg); color: var(--mn-text); min-height: 100vh; width: 100%; }
 .mn-nav { position: sticky; top: 0; z-index: 40; backdrop-filter: var(--mn-blur); background: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(109,91,208,0.08); transition: all .3s ease; }
 .mn-nav__inner { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 14px 20px; }
 .mn-logo { font-weight: 800; letter-spacing: .2px; cursor: pointer; }
