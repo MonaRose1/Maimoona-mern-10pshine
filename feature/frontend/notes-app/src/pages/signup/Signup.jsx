@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -22,10 +22,19 @@ import { FileText } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "@shared/schema";
+import { signupSchema } from "@Shared/schema";
+import {
+  apiRequest,
+  validateEmail,
+  validatePassword,
+  validateConfirmPassword,
+  validateUsername,
+} from "@/utils/helper";
 
 export default function Signup() {
   const [, setLocation] = useLocation();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(signupSchema),
@@ -37,9 +46,47 @@ export default function Signup() {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("Signup:", data);
-    setLocation("/");
+  const onSubmit = async (data) => {
+    setError("");
+
+    // ✅ Optional frontend validation using helper.js
+    if (!validateUsername(data.name))
+      return setError("Username must be at least 3 characters.");
+    if (!validateEmail(data.email))
+      return setError("Please enter a valid email.");
+    if (!validatePassword(data.password))
+      return setError("Password must be at least 6 characters.");
+    if (!validateConfirmPassword(data.password, data.confirmPassword))
+      return setError("Passwords do not match.");
+
+    try {
+      setLoading(true);
+
+      const response = await apiRequest(
+        "http://localhost:5000/api/auth/signup", // ← backend route
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+          }),
+        }
+      );
+
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+      }
+
+      console.log("Signup success:", response);
+      alert("Account created successfully!");
+      setLocation("/login");
+    } catch (err) {
+      console.error("Signup error:", err);
+      setError(err.message || "Something went wrong during signup.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -67,10 +114,11 @@ export default function Signup() {
           </CardHeader>
           <CardContent>
             <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
-              >
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                {error && (
+                  <p className="text-red-500 text-sm text-center">{error}</p>
+                )}
+
                 <FormField
                   control={form.control}
                   name="name"
@@ -143,16 +191,19 @@ export default function Signup() {
                     </FormItem>
                   )}
                 />
+
                 <Button
                   type="submit"
                   className="w-full"
                   data-testid="button-signup"
+                  disabled={loading}
                 >
-                  Create Account
+                  {loading ? "Creating..." : "Create Account"}
                 </Button>
               </form>
             </Form>
           </CardContent>
+
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}

@@ -22,7 +22,7 @@ import { FileText } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "@shared/schema";
+import { loginSchema } from "@Shared/schema";
 
 export default function Login() {
   const [, setLocation] = useLocation();
