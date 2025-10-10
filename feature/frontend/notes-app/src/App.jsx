@@ -24,7 +24,8 @@ const routes = (
     <Route path="/home" element={<ProtectedRoute><Home /></ProtectedRoute>} />
     <Route path="/profile" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
     <Route path="/note/:id" element={<ProtectedRoute><NoteEditor /></ProtectedRoute>} />
-    <Route path="*" element={<Navigate to="/" replace />} />
+    <Route path="/login" component={Login} />
+    <Route component={NotFound} /> 
   </Routes>
 );
 
