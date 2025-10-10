@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/navbar';
-import SearchBar from '../../components/searchbar';
+import SearchBar from '../../components/SearchBar';
 import NoteCard from '../../components/NoteCard';
 import { apiRequest } from '../../utils/helper';
 import { useNavigate } from 'react-router-dom';
