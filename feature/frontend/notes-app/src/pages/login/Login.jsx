@@ -2,7 +2,25 @@ import React, { useState } from 'react';
 import { validateEmail, apiRequest, saveToken } from '../../utils/helper';
 import { useNavigate, Link } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { FaEye, FaEyeSlash, FaGoogle, FaGithub } from 'react-icons/fa';
+
+const containerStyle = {
+  minHeight: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#f1f5f9',
+  padding: 16,
+};
+
+const cardStyle = {
+  width: '100%',
+  maxWidth: 420,
+  backgroundColor: '#ffffff',
+  borderRadius: 12,
+  boxShadow: '0 10px 25px rgba(2, 6, 23, 0.10)',
+  padding: 24,
+};
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -39,8 +57,8 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="auth-container" style={containerStyle}>
+      <div className="auth-card" style={cardStyle}>
         <form onSubmit={handleSubmit}>
           <h2 className="auth-title">Welcome back</h2>
           <p className="auth-subtitle">Log in to continue to your notes</p>
@@ -58,6 +76,48 @@ const Login = () => {
 
           <ErrorMessage message={error} />
           <button className='btn-primary' disabled={loading}>{loading ? 'Logging in…' : 'Log in'}</button>
+          
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16, marginBottom: 8 }}>
+            <div style={{ height: 1, background: '#e2e8f0', flex: 1 }} />
+            <span style={{ color: '#64748b', fontSize: 12 }}>or continue with</span>
+            <div style={{ height: 1, background: '#e2e8f0', flex: 1 }} />
+          </div>
+
+          <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
+            <a href="/api/auth/google" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              border: '1px solid #e2e8f0',
+              borderRadius: 8,
+              padding: '10px 12px',
+              flex: 1,
+              color: '#0f172a',
+              textDecoration: 'none',
+              background: '#ffffff'
+            }}>
+              <FaGoogle />
+              <span style={{ fontSize: 14 }}>Google</span>
+            </a>
+
+            <a href="/api/auth/github" style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: 8,
+              border: '1px solid #e2e8f0',
+              borderRadius: 8,
+              padding: '10px 12px',
+              flex: 1,
+              color: '#0f172a',
+              textDecoration: 'none',
+              background: '#ffffff'
+            }}>
+              <FaGithub />
+              <span style={{ fontSize: 14 }}>GitHub</span>
+            </a>
+          </div>
           <p className="auth-footer-text">Don't have an account? <Link to='/signup'>Sign up</Link></p>
         </form>
       </div>
