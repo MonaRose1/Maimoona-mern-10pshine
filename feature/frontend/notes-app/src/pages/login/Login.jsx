@@ -4,6 +4,24 @@ import { useNavigate, Link } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
+const containerStyle = {
+  minHeight: '100vh',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  backgroundColor: '#f1f5f9',
+  padding: 16,
+};
+
+const cardStyle = {
+  width: '100%',
+  maxWidth: 420,
+  backgroundColor: '#ffffff',
+  borderRadius: 12,
+  boxShadow: '0 10px 25px rgba(2, 6, 23, 0.10)',
+  padding: 24,
+};
+
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -39,8 +57,8 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-container">
-      <div className="auth-card">
+    <div className="auth-container" style={containerStyle}>
+      <div className="auth-card" style={cardStyle}>
         <form onSubmit={handleSubmit}>
           <h2 className="auth-title">Welcome back</h2>
           <p className="auth-subtitle">Log in to continue to your notes</p>
