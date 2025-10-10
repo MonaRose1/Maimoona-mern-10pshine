@@ -1,15 +1,13 @@
-import React from 'react'
-import { createRoot } from 'react-dom/client'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import './index.css'
-import Landing from './pages/landing/Landing.jsx'
+import React from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from '../frontend/notes-app/src/App.jsx';
+import '../frontend/notes-app/src/index.css';
 
 createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <Router>
-      <Routes>
-        <Route path="/*" element={<Landing />} />
-      </Routes>
-    </Router>
-  </React.StrictMode>
-)
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+);

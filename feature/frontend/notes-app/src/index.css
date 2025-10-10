@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* App-level utility classes */
+.btn-primary { @apply bg-gray-900 text-white px-3 py-2 rounded-md; }
+.btn-secondary { @apply bg-gray-100 text-gray-900 px-3 py-2 rounded-md; }
+.input-box { @apply w-full border border-gray-200 rounded-md px-3 py-2 mb-3; }
+
+/* Layout helpers */
+.grid { display: grid; }

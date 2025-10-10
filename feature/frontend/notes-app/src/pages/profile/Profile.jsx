@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { apiRequest, clearToken } from '../../utils/api';
+import { apiRequest, clearToken } from '../../utils/helper';
 import Navbar from '../../components/navbar';
 import { useNavigate } from 'react-router-dom';
 

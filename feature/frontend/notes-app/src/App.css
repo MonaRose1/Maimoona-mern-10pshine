@@ -1,0 +1,2 @@
+/* Minimal app-level styles; most via Tailwind and component CSS */
+.app-container { min-height: 100vh; background: #f9fafb; }

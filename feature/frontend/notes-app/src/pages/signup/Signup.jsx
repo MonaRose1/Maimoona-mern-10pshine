@@ -2,7 +2,6 @@ import React,{ useState } from 'react';
 import { validateEmail, validatePassword, validateUsername, validateConfirmPassword, apiRequest } from '../../utils/helper';
 import { useNavigate, Link } from 'react-router-dom';
 import ErrorMessage from '../../components/ErrorMessage.jsx';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 const Signup = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
@@ -63,21 +62,24 @@ const Signup = () => {
                 <div className="relative mb-4 flex items-center">
                     <input type={showPassword ? 'text' : 'password'} placeholder = 'password' className="input-box" value={password} onChange={(e) => setPassword (e.target.value)}/>
                     <span
-                        className="absolute right-4 inset-y-0 flex items-center cursor-pointer text-gray-500"
+                        className="absolute right-4 inset-y-0 flex items-center cursor-pointer text-gray-500 select-none"
                         style={{ height: '100%' }}
                         onClick={() => setShowPassword(!showPassword)}
+                        aria-label="Toggle password visibility"
                         >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        {showPassword ? '🙈' : '👁️'}
                     </span>
                     </div>
                 
 
                 <div className="relative mb-4">
                 <input type={showConfirmPassword ? 'text' : 'password'} placeholder = 'confirm password' className="input-box" value={confirmPassword} onChange={(e) => setConfirmPassword (e.target.value)}/>
-                <span className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                <span
+                  className="absolute right-4 top-1/2 transform -translate-y-1/2 cursor-pointer text-gray-500 select-none"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  aria-label="Toggle confirm password visibility"
                 >
-                    {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                  {showConfirmPassword ? '🙈' : '👁️'}
                 </span>
                 </div>
 
