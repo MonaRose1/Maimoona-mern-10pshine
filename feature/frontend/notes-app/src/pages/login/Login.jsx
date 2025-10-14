@@ -1,128 +1,195 @@
-import React, { useState } from 'react';
-import { validateEmail, apiRequest, saveToken } from '../../utils/helper';
-import { useNavigate, Link } from 'react-router-dom';
-import ErrorMessage from '../../components/ErrorMessage.jsx';
-import { FaEye, FaEyeSlash, FaGoogle, FaGithub } from 'react-icons/fa';
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { FileText } from "lucide-react";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@Shared/schema";
+import { apiRequest } from "@/utils/helper";
 
-const containerStyle = {
-  minHeight: '100vh',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  backgroundColor: '#f1f5f9',
-  padding: 16,
-};
-
-const cardStyle = {
-  width: '100%',
-  maxWidth: 420,
-  backgroundColor: '#ffffff',
-  borderRadius: 12,
-  boxShadow: '0 10px 25px rgba(2, 6, 23, 0.10)',
-  padding: 24,
-};
-
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+export default function Login() {
   const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!email) { setError('Please enter your email!'); return; }
-    if (!validateEmail(email)) { setError('Please enter a valid email!'); return; }
-    if (!password) { setError('Please enter your password!'); return; }
+  const form = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
-    setError('');
-    setLoading(true);
+  const onSubmit = async (data) => {
     try {
-      const res = await apiRequest('/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password })
+      setLoading(true);
+      setError("");
+      
+      console.log("Login attempt:", data.email);
+      
+      // Call the login API
+      const response = await apiRequest("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(data)
       });
-      if (res?.token) {
-        saveToken(res.token);
-        navigate('/home');
-      } else {
-        setError('Invalid response from server');
+      
+      console.log("Login response:", response);
+      
+      // Store the token in localStorage
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        console.log("Token saved:", response.token);
       }
-    } catch (e) {
-      setError(e.message || 'Login failed');
+      
+      // Store user info
+      if (response.user) {
+        localStorage.setItem("user", JSON.stringify(response.user));
+        console.log("User saved:", response.user);
+      }
+      
+      // Navigate to home
+      navigate("/home");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.message || "Failed to login. Please check your credentials.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="auth-container" style={containerStyle}>
-      <div className="auth-card" style={cardStyle}>
-        <form onSubmit={handleSubmit}>
-          <h2 className="auth-title">Welcome back</h2>
-          <p className="auth-subtitle">Log in to continue to your notes</p>
+    <div className="min-h-screen flex items-center justify-center bg-background p-4">
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
 
-          <label style={{ fontSize: 13, color: '#334155' }}>Email</label>
-          <input type="text" placeholder="you@example.com" className="input-box" value={email} onChange={(e) => setEmail(e.target.value)} />
-
-          <label style={{ fontSize: 13, color: '#334155' }}>Password</label>
-          <div style={{ position: 'relative', marginBottom: 12 }}>
-            <input type={showPassword ? 'text' : 'password'} placeholder="••••••••" className="input-box" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <span className="toggle-eye" onClick={() => setShowPassword(!showPassword)}>
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
+      <div className="w-full max-w-md space-y-8">
+        <div className="flex flex-col items-center text-center space-y-2">
+          <div className="flex items-center gap-2">
+            <FileText className="h-8 w-8 text-primary" />
+            <span className="text-2xl font-bold">NotePro</span>
           </div>
+          <h1 className="text-3xl font-bold">Welcome back</h1>
+          <p className="text-muted-foreground">
+            Sign in to your account to continue
+          </p>
+        </div>
 
-          <ErrorMessage message={error} />
-          <button className='btn-primary' disabled={loading}>{loading ? 'Logging in…' : 'Log in'}</button>
-          
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 16, marginBottom: 8 }}>
-            <div style={{ height: 1, background: '#e2e8f0', flex: 1 }} />
-            <span style={{ color: '#64748b', fontSize: 12 }}>or continue with</span>
-            <div style={{ height: 1, background: '#e2e8f0', flex: 1 }} />
-          </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Sign In</CardTitle>
+            <CardDescription>
+              Enter your credentials to access your notes
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4"
+            >
+                <div className="space-y-2">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="name@example.com"
+                      data-testid="input-email"
+                      {...form.register("email")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.email && (
+                    <FormMessage>{form.formState.errors.email.message}</FormMessage>
+                  )}
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Password</FormLabel>
+                    <a
+                      href="#"
+                      className="text-sm text-primary hover:underline"
+                      data-testid="link-forgot-password"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      data-testid="input-password"
+                      {...form.register("password")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.password && (
+                    <FormMessage>{form.formState.errors.password.message}</FormMessage>
+                  )}
+                </div>
+                <Button
+                  type="submit"
+                  className="w-full"
+                  data-testid="button-login"
+                  disabled={loading}
+                >
+                  {loading ? "Signing in..." : "Sign In"}
+                </Button>
+            </form>
+          </CardContent>
+          <CardFooter className="flex justify-center">
+            <p className="text-sm text-muted-foreground">
+              Don't have an account?{" "}
+              <Link
+                to="/signup"
+                className="text-primary hover:underline"
+                data-testid="link-signup"
+              >
+                Sign up
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
 
-          <div style={{ display: 'flex', gap: 12, marginBottom: 12 }}>
-            <a href="/api/auth/google" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              border: '1px solid #e2e8f0',
-              borderRadius: 8,
-              padding: '10px 12px',
-              flex: 1,
-              color: '#0f172a',
-              textDecoration: 'none',
-              background: '#ffffff'
-            }}>
-              <FaGoogle />
-              <span style={{ fontSize: 14 }}>Google</span>
-            </a>
-
-            <a href="/api/auth/github" style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 8,
-              border: '1px solid #e2e8f0',
-              borderRadius: 8,
-              padding: '10px 12px',
-              flex: 1,
-              color: '#0f172a',
-              textDecoration: 'none',
-              background: '#ffffff'
-            }}>
-              <FaGithub />
-              <span style={{ fontSize: 14 }}>GitHub</span>
-            </a>
-          </div>
-          <p className="auth-footer-text">Don't have an account? <Link to='/signup'>Sign up</Link></p>
-        </form>
+        <p className="text-center text-xs text-muted-foreground">
+          By signing in, you agree to our{" "}
+          <a
+            href="#"
+            className="underline hover:text-foreground"
+            data-testid="link-terms"
+          >
+            Terms of Service
+          </a>{" "}
+          and{" "}
+          <a
+            href="#"
+            className="underline hover:text-foreground"
+            data-testid="link-privacy"
+          >
+            Privacy Policy
+          </a>
+        </p>
       </div>
     </div>
   );
-};
-
-export default Login;
+}
