@@ -104,7 +104,7 @@ export default function Signup() {
         <div className="flex flex-col items-center text-center space-y-2">
           <div className="flex items-center gap-2">
             <FileText className="h-8 w-8 text-primary" />
-            <span className="text-2xl font-bold">NotePro</span>
+            <span className="text-2xl font-bold">Mona Notes</span>
           </div>
           <h1 className="text-3xl font-bold">Create an account</h1>
           <p className="text-muted-foreground">

@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <header className="mn-nav">
       <div className="mn-nav__inner">
-        <div className="mn-logo" onClick={() => navigate('/')}>MonaNotes</div>
+        <div className="mn-logo" onClick={() => navigate('/')}>Mona Notes</div>
         <nav className="mn-nav__links">
           <a href="#home" className="mn-link">Home</a>
           <a href="#features" className="mn-link">Features</a>
@@ -92,7 +92,7 @@ const HowItWorks = () => {
   ];
   return (
     <section className="mn-section">
-      <h2 className="mn-section__title">Why MonaNotes</h2>
+      <h2 className="mn-section__title">Why Mona Notes</h2>
       <div className="mn-steps">
         {steps.map((s, idx) => (
           <div key={s.title} className={`mn-step ${idx % 2 ? 'mn-step--right' : 'mn-step--left'}`}>
@@ -135,9 +135,9 @@ const Demo = () => {
 
 const About = () => (
   <section id="about" className="mn-section mn-section--muted">
-    <h2 className="mn-section__title">About MonaNotes</h2>
+    <h2 className="mn-section__title">About Mona Notes</h2>
     <p className="mn-about__text">
-      MonaNotes is a full‑stack note‑taking web app built with the MERN stack. It helps you capture, manage, and secure your notes all in one place — designed with simplicity, privacy, and productivity in mind.
+      Mona Notes is a full‑stack note‑taking web app built with the MERN stack. It helps you capture, manage, and secure your notes all in one place — designed with simplicity, privacy, and productivity in mind.
     </p>
     <div className="mn-about__stack">
       <span>⚛️ React</span>
@@ -161,7 +161,7 @@ const CTA = () => (
 const Footer = () => (
   <footer className="mn-footer">
     <div className="mn-footer__inner">
-      <div className="mn-footer__brand">MonaNotes</div>
+      <div className="mn-footer__brand">Mona Notes</div>
       <div className="mn-footer__tag">Built with ❤️ by Mona DevDizayn</div>
       <div className="mn-footer__social">
         <a href="#" aria-label="Instagram" className="mn-social"></a>
@@ -169,7 +169,7 @@ const Footer = () => (
         <a href="#" aria-label="LinkedIn" className="mn-social"></a>
       </div>
     </div>
-    <div className="mn-footer__copy">© 2025 MonaNotes. All rights reserved.</div>
+    <div className="mn-footer__copy">© 2025 Mona Notes. All rights reserved.</div>
   </footer>
 );
 

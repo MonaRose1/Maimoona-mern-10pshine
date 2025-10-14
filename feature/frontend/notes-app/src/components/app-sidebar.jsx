@@ -69,7 +69,7 @@ export function AppSidebar({
       )}>
         <div className="flex items-center gap-2 justify-center">
           <FileText className="h-6 w-6 text-primary flex-shrink-0" />
-          {isOpen && <span className="text-lg font-semibold">NotePro</span>}
+          {isOpen && <span className="text-lg font-semibold">Mona Notes</span>}
         </div>
         {isOpen && (
           <div className="flex gap-2 mt-4">
