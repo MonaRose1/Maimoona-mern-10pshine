@@ -1,0 +1,11 @@
+{
+  "name": "notes-app-backend",
+  "version": "1.0.0",
+  "description": "Backend tests for notes application",
+  "type": "module",
+  "scripts": {
+    "test": "mocha 'test/**/*.test.js' --exit --timeout 10000",
+    "test:watch": "mocha 'test/**/*.test.js' --watch --exit",
+    "test:coverage": "c8 mocha 'test/**/*.test.js' --exit"
+  }
+}

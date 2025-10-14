@@ -1,0 +1,95 @@
+/* Home.css - Custom styles for the home page */
+
+/* Smooth animations */
+.fade-in {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom scrollbar for note list */
+.overflow-y-auto::-webkit-scrollbar {
+  width: 8px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-track {
+  background: rgba(243, 240, 255, 0.3);
+  border-radius: 4px;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb {
+  background: rgba(109, 91, 208, 0.3);
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.overflow-y-auto::-webkit-scrollbar-thumb:hover {
+  background: rgba(109, 91, 208, 0.5);
+}
+
+/* Gradient text animation */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-text {
+  background: linear-gradient(270deg, #6D5BD0, #93C5FD, #6EE7B7);
+  background-size: 200% 200%;
+  animation: gradientShift 8s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Card hover effects */
+.note-card-hover {
+  transition: all 0.2s ease;
+}
+
+.note-card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(109, 91, 208, 0.15);
+}
+
+/* Loading spinner pulse */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Backdrop blur for header */
+.backdrop-blur-header {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  background: rgba(255, 255, 255, 0.6);
+}
+
+/* Note list container */
+.note-list-container {
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.8), rgba(249, 250, 251, 0.9));
+}

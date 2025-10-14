@@ -1,5 +1,5 @@
-import { NoteCard } from "./note-card";
-import { EmptyState } from "./empty-state";
+import { NoteCard } from "./note-card.jsx";
+import { EmptyState } from "./empty-state.jsx";
 
 export function NoteList({
   notes,
@@ -20,20 +20,23 @@ export function NoteList({
 
   return (
     <div className="grid gap-4 p-4">
-      {notes.map((note) => (
-        <NoteCard
-          key={note.id}
-          id={note.id}
-          title={note.title}
-          content={note.content}
-          tags={note.tags}
-          isPinned={note.isPinned}
-          updatedAt={note.updatedAt}
-          color={note.color}
-          onClick={() => onNoteClick(note.id)}
-          isSelected={selectedNoteId === note.id}
-        />
-      ))}
+      {notes.map((note) => {
+        const noteId = note._id || note.id;
+        return (
+          <NoteCard
+            key={noteId}
+            id={noteId}
+            title={note.title}
+            content={note.content}
+            tags={note.tags}
+            isPinned={note.isPinned}
+            updatedAt={note.updatedAt}
+            color={note.color}
+            onClick={() => onNoteClick(noteId)}
+            isSelected={selectedNoteId === noteId}
+          />
+        );
+      })}
     </div>
   );
 }

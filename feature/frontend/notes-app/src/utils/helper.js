@@ -1,5 +1,8 @@
 export const apiRequest = async (url, options = {}) => {
   const token = localStorage.getItem("token");
+  const baseURL = "http://localhost:5000";
+  const fullUrl = url.startsWith('http') ? url : `${baseURL}${url}`;
+  
   const headers = {
     "Content-Type": "application/json",
     ...options.headers,
@@ -9,17 +12,40 @@ export const apiRequest = async (url, options = {}) => {
     headers["Authorization"] = `Bearer ${token}`;
   }
 
-  const response = await fetch(url, {
-    ...options,
-    headers,
-  });
+  console.log('Making API request to:', fullUrl, 'with options:', options);
 
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => response.text());
-    throw new Error(errorData.message || errorData || "Something went wrong");
+  try {
+    const response = await fetch(fullUrl, {
+      ...options,
+      headers,
+    });
+
+    console.log('Response status:', response.status, 'ok:', response.ok);
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error('API Error:', errorText);
+      let errorData;
+      try {
+        errorData = JSON.parse(errorText);
+      } catch {
+        errorData = { message: errorText };
+      }
+      throw new Error(errorData.message || errorData || "Something went wrong");
+    }
+
+    const responseText = await response.text();
+    console.log('Response text:', responseText);
+    
+    try {
+      return JSON.parse(responseText);
+    } catch {
+      return responseText;
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+    throw error;
   }
-
-  return response.json().catch(() => response.text());
 };
 
 export const validateEmail = (email) => {

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "wouter";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -32,7 +32,7 @@ import {
 } from "@/utils/helper";
 
 export default function Signup() {
-  const [, setLocation] = useLocation();
+  const navigate = useNavigate();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -62,25 +62,30 @@ export default function Signup() {
     try {
       setLoading(true);
 
-      const response = await apiRequest(
-        "http://localhost:5000/api/auth/signup", // ← backend route
-        {
-          method: "POST",
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            password: data.password,
-          }),
-        }
-      );
+      const response = await apiRequest("/api/auth/signup", {
+        method: "POST",
+        body: JSON.stringify({
+          name: data.name,
+          email: data.email,
+          password: data.password,
+        }),
+      });
 
+      // Store the token in localStorage
       if (response.token) {
         localStorage.setItem("token", response.token);
+        console.log("Token saved:", response.token);
+      }
+      
+      // Store user info
+      if (response.user) {
+        localStorage.setItem("user", JSON.stringify(response.user));
+        console.log("User saved:", response.user);
       }
 
       console.log("Signup success:", response);
       alert("Account created successfully!");
-      setLocation("/login");
+      navigate("/login");
     } catch (err) {
       console.error("Signup error:", err);
       setError(err.message || "Something went wrong during signup.");
@@ -113,84 +118,67 @@ export default function Signup() {
             <CardDescription>Create your account to get started</CardDescription>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 {error && (
                   <p className="text-red-500 text-sm text-center">{error}</p>
                 )}
 
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Full Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="text"
-                          placeholder="John Doe"
-                          data-testid="input-name"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                <div className="space-y-2">
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      placeholder="John Doe"
+                      data-testid="input-name"
+                      {...form.register("name")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.name && (
+                    <FormMessage>{form.formState.errors.name.message}</FormMessage>
                   )}
-                />
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="name@example.com"
-                          data-testid="input-email"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                </div>
+                <div className="space-y-2">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="name@example.com"
+                      data-testid="input-email"
+                      {...form.register("email")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.email && (
+                    <FormMessage>{form.formState.errors.email.message}</FormMessage>
                   )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Create a strong password"
-                          data-testid="input-password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                </div>
+                <div className="space-y-2">
+                  <FormLabel>Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Create a strong password"
+                      data-testid="input-password"
+                      {...form.register("password")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.password && (
+                    <FormMessage>{form.formState.errors.password.message}</FormMessage>
                   )}
-                />
-                <FormField
-                  control={form.control}
-                  name="confirmPassword"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Re-enter your password"
-                          data-testid="input-confirm-password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                </div>
+                <div className="space-y-2">
+                  <FormLabel>Confirm Password</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Re-enter your password"
+                      data-testid="input-confirm-password"
+                      {...form.register("confirmPassword")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.confirmPassword && (
+                    <FormMessage>{form.formState.errors.confirmPassword.message}</FormMessage>
                   )}
-                />
+                </div>
 
                 <Button
                   type="submit"
@@ -200,15 +188,14 @@ export default function Signup() {
                 >
                   {loading ? "Creating..." : "Create Account"}
                 </Button>
-              </form>
-            </Form>
+            </form>
           </CardContent>
 
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
               Already have an account?{" "}
               <Link
-                href="/login"
+                to="/login"
                 className="text-primary hover:underline"
                 data-testid="link-login"
               >

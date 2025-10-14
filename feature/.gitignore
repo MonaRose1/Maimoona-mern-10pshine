@@ -41,3 +41,8 @@ coverage/
 *.swo
 *.orig
 feature/
+
+#dist
+frontend/notes-app/dist/
+
+*.md

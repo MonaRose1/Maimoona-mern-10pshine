@@ -1,4 +1,5 @@
-import { ChevronRight, FileText, Folder, Plus, Star } from "lucide-react";
+import { ChevronRight, FileText, Folder, Plus, Star, StickyNote } from "lucide-react";
+import React from "react";
 import {
   Sidebar,
   SidebarContent,
@@ -9,6 +10,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarHeader,
+  SidebarContext,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -19,10 +21,14 @@ export function AppSidebar({
   onFolderSelect,
   onNewNote,
   onNewFolder,
+  showAllNotes,
+  onShowAllNotes,
   showPinned,
   onShowPinned,
   pinnedCount = 0,
 }) {
+  const context = React.useContext(SidebarContext);
+  const isOpen = context?.isOpen ?? true;
   const renderFolder = (folder, depth = 0) => (
     <div key={folder.id}>
       <SidebarMenuButton
@@ -57,37 +63,66 @@ export function AppSidebar({
 
   return (
     <Sidebar>
-      <SidebarHeader className="p-4 border-b border-sidebar-border">
-        <div className="flex items-center gap-2">
-          <FileText className="h-6 w-6 text-primary" />
-          <span className="text-lg font-semibold">NotePro</span>
+      <SidebarHeader className={cn(
+        "p-4 border-b border-sidebar-border",
+        !isOpen && "p-2"
+      )}>
+        <div className="flex items-center gap-2 justify-center">
+          <FileText className="h-6 w-6 text-primary flex-shrink-0" />
+          {isOpen && <span className="text-lg font-semibold">NotePro</span>}
         </div>
-        <div className="flex gap-2 mt-4">
-          <Button
-            onClick={onNewNote}
-            className="flex-1"
-            size="sm"
-            data-testid="button-new-note"
-          >
-            <Plus className="h-4 w-4 mr-1" />
-            New Note
-          </Button>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={onNewFolder}
-            className="min-h-8"
-            data-testid="button-new-folder"
-          >
-            <Plus className="h-4 w-4" />
-          </Button>
-        </div>
+        {isOpen && (
+          <div className="flex gap-2 mt-4">
+            <Button
+              onClick={onNewNote}
+              className="flex-1"
+              size="sm"
+              data-testid="button-new-note"
+            >
+              <Plus className="h-4 w-4 mr-1" />
+              New Note
+            </Button>
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={onNewFolder}
+              className="min-h-8"
+              data-testid="button-new-folder"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+        {!isOpen && (
+          <div className="flex flex-col gap-2 mt-4">
+            <Button
+              onClick={onNewNote}
+              variant="ghost"
+              size="icon"
+              className="w-full"
+              data-testid="button-new-note"
+              title="New Note"
+            >
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel>Quick Access</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  onClick={onShowAllNotes}
+                  className={cn(showAllNotes && "bg-sidebar-accent")}
+                  data-testid="button-all-notes"
+                >
+                  <StickyNote className="h-4 w-4" />
+                  <span>All Notes</span>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton
                   onClick={onShowPinned}

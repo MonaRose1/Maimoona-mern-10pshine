@@ -1,5 +1,5 @@
-import React from "react";
-import { Link, useLocation } from "wouter";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -23,9 +23,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@Shared/schema";
+import { apiRequest } from "@/utils/helper";
 
 export default function Login() {
-  const [, setLocation] = useLocation();
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -35,9 +38,41 @@ export default function Login() {
     },
   });
 
-  const onSubmit = (data) => {
-    console.log("Login:", data);
-    setLocation("/");
+  const onSubmit = async (data) => {
+    try {
+      setLoading(true);
+      setError("");
+      
+      console.log("Login attempt:", data.email);
+      
+      // Call the login API
+      const response = await apiRequest("/api/auth/login", {
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+      
+      console.log("Login response:", response);
+      
+      // Store the token in localStorage
+      if (response.token) {
+        localStorage.setItem("token", response.token);
+        console.log("Token saved:", response.token);
+      }
+      
+      // Store user info
+      if (response.user) {
+        localStorage.setItem("user", JSON.stringify(response.user));
+        console.log("User saved:", response.user);
+      }
+      
+      // Navigate to home
+      navigate("/home");
+    } catch (err) {
+      console.error("Login error:", err);
+      setError(err.message || "Failed to login. Please check your credentials.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -66,71 +101,67 @@ export default function Login() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Form {...form}>
-              <form
-                onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-4"
-              >
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="email"
-                          placeholder="name@example.com"
-                          data-testid="input-email"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-md">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4"
+            >
+                <div className="space-y-2">
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      placeholder="name@example.com"
+                      data-testid="input-email"
+                      {...form.register("email")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.email && (
+                    <FormMessage>{form.formState.errors.email.message}</FormMessage>
                   )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="flex items-center justify-between">
-                        <FormLabel>Password</FormLabel>
-                        <a
-                          href="#"
-                          className="text-sm text-primary hover:underline"
-                          data-testid="link-forgot-password"
-                        >
-                          Forgot password?
-                        </a>
-                      </div>
-                      <FormControl>
-                        <Input
-                          type="password"
-                          placeholder="Enter your password"
-                          data-testid="input-password"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between">
+                    <FormLabel>Password</FormLabel>
+                    <a
+                      href="#"
+                      className="text-sm text-primary hover:underline"
+                      data-testid="link-forgot-password"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
+                  <FormControl>
+                    <Input
+                      type="password"
+                      placeholder="Enter your password"
+                      data-testid="input-password"
+                      {...form.register("password")}
+                    />
+                  </FormControl>
+                  {form.formState.errors.password && (
+                    <FormMessage>{form.formState.errors.password.message}</FormMessage>
                   )}
-                />
+                </div>
                 <Button
                   type="submit"
                   className="w-full"
                   data-testid="button-login"
+                  disabled={loading}
                 >
-                  Sign In
+                  {loading ? "Signing in..." : "Sign In"}
                 </Button>
-              </form>
-            </Form>
+            </form>
           </CardContent>
           <CardFooter className="flex justify-center">
             <p className="text-sm text-muted-foreground">
               Don't have an account?{" "}
               <Link
-                href="/signup"
+                to="/signup"
                 className="text-primary hover:underline"
                 data-testid="link-signup"
               >

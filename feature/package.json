@@ -6,9 +6,23 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "server": "node backend/server/index.js",
+    "server:dev": "nodemon backend/server/index.js",
+    "cleanup-db": "node backend/server/cleanup-db.js",
+    "test:backend": "cd backend/server && mocha 'test/**/*.test.js' --exit --timeout 10000",
+    "test:backend:watch": "cd backend/server && mocha 'test/**/*.test.js' --watch --exit",
+    "test:frontend": "cd frontend/notes-app && npm test",
+    "test:all": "npm run test:backend && npm run test:frontend",
+    "sonar": "sonar-scanner"
   },
   "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^5.1.0",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.0.0",
+    "nanoid": "^5.1.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.27.0"
@@ -16,8 +30,15 @@
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.0",
     "autoprefixer": "^10.4.20",
+    "chai": "^6.2.0",
+    "mocha": "^11.7.4",
+    "nodemon": "^3.1.10",
+    "pino": "^10.0.0",
+    "pino-pretty": "^13.1.2",
     "postcss": "^8.4.47",
+    "sinon": "^21.0.0",
+    "supertest": "^7.1.4",
     "tailwindcss": "^3.4.13",
-    "vite": "^5.4.8"
+    "vite": "^5.4.20"
   }
 }
