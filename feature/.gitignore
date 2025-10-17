@@ -1,0 +1,6 @@
+# Ignore Node.js dependencies in all packages
+node_modules/
+**/node_modules/
+.vite/
+package-lock.json
+package.json
