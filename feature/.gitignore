@@ -1,38 +1,47 @@
 # Dependencies
 node_modules/
-
-# Environment variables
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+frontend/notes-app/node_modules/
 
 # Build outputs
-dist/
 build/
-.out/
+dist/
+.tmp/
+.temp/
+
+# Tooling caches
+.vite/
+.cache/
+.parcel-cache/
+
+# Environment files
+.env
+.env.local
+.env.*.local
 
 # Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# IDE and editor files
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
+# OS files
 .DS_Store
-
-# OS generated files
 Thumbs.db
 
-# Testing
+# Coverage
 coverage/
-*.lcov
 
-# Vite
-.vite/
+# IDE/editor
+.vscode/
+.idea/
+
+# Misc
+*.swp
+*.swo
+*.orig
+/features
+#dist
+frontend/notes-app/dist/
+
+*.md
