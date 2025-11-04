@@ -4,7 +4,7 @@ import { apiRequest } from '../utils/helper';
 import Loading from './Loading.jsx';
 import ErrorMessage from './ErrorMessage.jsx';
 
-export const NoteEditor = () => {
+const NoteEditor = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const titleRef = useRef(null);
