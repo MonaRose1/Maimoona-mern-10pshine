@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { NoteCard } from '../../components/note-card';
-import { SecretSearchBar } from '../../components/SecretSearchBar';
+import SecretSearchBar from '../../components/SecretSearchBar';
 import { apiRequest } from '../../utils/api';
 
 export const SecretSafe = () => {
@@ -10,8 +10,8 @@ export const SecretSafe = () => {
   const { data: secretNotes, isLoading, error } = useQuery({
     queryKey: ['secretNotes'],
     queryFn: async () => {
-      const response = await apiRequest('/api/secret/notes');
-      return response.data;
+      const response = await apiRequest('/secret/notes');
+      return response;
     }
   });
 
@@ -37,3 +37,5 @@ export const SecretSafe = () => {
     </div>
   );
 };
+
+export default SecretSafe;

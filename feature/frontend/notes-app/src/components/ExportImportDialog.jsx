@@ -26,11 +26,13 @@ export function ExportImportDialog({ open, onOpenChange, onNotesImported }) {
       setIsExporting(true);
       setError("");
       
-      // Fetch all notes
-      const notes = await apiRequest("/api/notes", { method: "GET" });
+      // Get all notes
+      const notesResponse = await apiRequest("/notes", { method: "GET" });
+      const notes = notesResponse;
       
+      // Export notes
       if (exportFormat === 'csv') {
-        exportNotesToCSV(notes, `notes-export-${new Date().toISOString().split('T')[0]}.csv`);
+        exportNotesAsCSV(notes, `notes-export-${new Date().toISOString().split('T')[0]}.csv`);
       } else {
         exportNotes(notes, `notes-export-${new Date().toISOString().split('T')[0]}.json`);
       }

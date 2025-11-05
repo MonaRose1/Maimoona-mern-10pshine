@@ -32,26 +32,26 @@ const Profile = () => {
         setLoading(true);
         
         // Load user data
-        const userData = await apiRequest('/api/me', { method: 'GET' });
+        const userData = await apiRequest('/me', { method: 'GET' });
         setUser(userData);
         
         // Load user statistics
         try {
           const [notes, secretNotes] = await Promise.all([
-            apiRequest('/api/notes', { method: 'GET' }),
-            apiRequest('/api/secret/notes', { method: 'GET' }).catch(() => [])
+            apiRequest('/notes', { method: 'GET' }),
+            apiRequest('/secret/notes', { method: 'GET' }).catch(() => [])
           ]);
           
           setStats({
-            totalNotes: notes.length,
-            pinnedNotes: notes.filter(n => n.isPinned).length,
-            secretNotes: secretNotes.length
+            totalNotes: notes?.length || 0,
+            pinnedNotes: notes?.filter(note => note.isPinned).length || 0,
+            secretNotes: secretNotes?.length || 0
           });
-        } catch (statsErr) {
-          console.error('Failed to load stats:', statsErr);
+        } catch (statsError) {
+          console.error('Failed to load statistics:', statsError);
         }
-      } catch (err) {
-        setError(err.message || 'Failed to load profile');
+      } catch (error) {
+        setError(error.message || 'Failed to load profile');
       } finally {
         setLoading(false);
       }

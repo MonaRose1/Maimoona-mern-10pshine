@@ -24,14 +24,16 @@ export const SecretPinDialog = ({ isOpen, onClose, onPinSet }) => {
     setError('');
     
     try {
-      const response = await apiRequest('/api/secret/set-pin', {
+      setIsSettingPin(true);
+      setError('');
+      
+      const response = await apiRequest('/secret/set-pin', {
         method: 'POST',
-        body: { pin }
+        body: JSON.stringify({ pin })
       });
       
-      if (response.ok) {
-        onPinSet();
-        onClose();
+      if (response?.message) {
+        onSuccess();
       } else {
         setError(response.message || 'Failed to set PIN');
       }

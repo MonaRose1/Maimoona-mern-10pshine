@@ -1,23 +1,22 @@
-// db.js - Separate database connections for users and notes
-import mongoose from "mongoose";
+// db.js - MongoDB connections
 import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
+import mongoose from "mongoose";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 dotenv.config({ path: path.join(__dirname, '.env') });
 
-const userDbUri = process.env.MONGODB_USER_URI;
-const notesDbUri = process.env.MONGODB_NOTES_URI;
-const secretDbUri = process.env.MONGODB_SECRET_URI || notesDbUri.replace('notesapp_notes', 'notesapp_secret');
+const dbUri = process.env.MONGODB_URI;
 
-if (!userDbUri || !notesDbUri) {
-  throw new Error("MONGODB_USER_URI and MONGODB_NOTES_URI must be set in .env file");
+if (!dbUri) {
+  throw new Error("MONGODB_URI must be set in .env file");
 }
 
 // Create separate connections for users, notes, and secret notes
+// All using the same database but different collections
 export const userDbConnection = mongoose.createConnection();
 export const notesDbConnection = mongoose.createConnection();
 export const secretDbConnection = mongoose.createConnection();
@@ -25,27 +24,27 @@ export const secretDbConnection = mongoose.createConnection();
 export const connectDB = async () => {
   try {
     // Connect to User Database
-    await userDbConnection.openUri(userDbUri, {
+    await userDbConnection.openUri(dbUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("✅ User Database connected (notesapp_users)");
+    console.log("✅ User Database connected (NotesApp users)");
 
     // Connect to Notes Database
-    await notesDbConnection.openUri(notesDbUri, {
+    await notesDbConnection.openUri(dbUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("✅ Notes Database connected (notesapp_notes)");
+    console.log("✅ Notes Database connected (NotesApp notes)");
 
     // Connect to Secret Notes Database
-    await secretDbConnection.openUri(secretDbUri, {
+    await secretDbConnection.openUri(dbUri, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    console.log("✅ Secret Notes Database connected (notesapp_secret)");
+    console.log("✅ Secret Notes Database connected (NotesApp secret)");
   } catch (err) {
-    console.error("❌ MongoDB connection error:", err);
+    console.error("❌ MongoDB connection error: ", err);
     process.exit(1);
   }
 };

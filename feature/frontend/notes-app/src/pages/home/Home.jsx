@@ -1,15 +1,15 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { NoteCard } from '../../components/note-card';
-import { SearchBar } from '../../components/searchbar';
+import SearchBar from '../../components/searchbar';
 import { apiRequest } from '../../utils/api';
 
 export const Home = () => {
   const { data: notes, isLoading, error } = useQuery({
     queryKey: ['notes'],
     queryFn: async () => {
-      const response = await apiRequest('/api/notes');
-      return response.data;
+      const response = await apiRequest('/notes');
+      return response;
     }
   });
 
@@ -24,9 +24,20 @@ export const Home = () => {
       </div>
       <div className="notes-grid">
         {notes?.map(note => (
-          <NoteCard key={note._id} note={note} />
+          <NoteCard 
+            key={note._id} 
+            id={note._id}
+            title={note.title}
+            content={note.content}
+            tags={note.tags}
+            isPinned={note.isPinned}
+            updatedAt={note.updatedAt}
+            color={note.color}
+          />
         ))}
       </div>
     </div>
   );
 };
+
+export default Home;
