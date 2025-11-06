@@ -1,6 +1,0 @@
-{
-  "require": ["./test/setup.js"],
-  "spec": ["test/models/**/*.test.js", "test/middleware/**/*.test.js"],
-  "timeout": 10000,
-  "exit": true
-}
