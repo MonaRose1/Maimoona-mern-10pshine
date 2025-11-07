@@ -1,11 +1,9 @@
-.
-
-📒 Note-Taking Application
+## 📒 Note-Taking Application
 
 A full-stack note-taking application built with React + Vite on the frontend and Node.js + Express + MongoDB on the backend.
 The app provides secure note handling, including a Secret Safe for sensitive notes protected by a PIN.
 
-🚀 Project Overview
+# 🚀 Project Overview
 
 This application follows a client–server architecture:
 
@@ -21,12 +19,12 @@ Regular Notes
 
 Secret Notes
 
-📁 Project Structure
+# 📁 Project Structure
 root/
  ├── frontend/      # React + Vite app
  └── backend/       # Node.js + Express server
 
-🎨 Frontend (React + Vite)
+# 🎨 Frontend (React + Vite)
 ✅ Tech Stack
 
 React + Vite
@@ -41,7 +39,7 @@ react-hook-form + Zod (form validation)
 
 lucide-react (icons)
 
-✅ Key Features
+# ✅ Key Features
 
 Component-based architecture
 
@@ -57,7 +55,7 @@ Rich text editor
 
 Tag-based organization
 
-🛠 Backend (Node.js + Express)
+# 🛠 Backend (Node.js + Express)
 ✅ Technologies
 
 Express.js
@@ -76,7 +74,7 @@ Regular Notes
 
 Secret Notes
 
-✅ Security Layer
+# ✅ Security Layer
 
 Protected routes
 
@@ -86,7 +84,7 @@ Isolated DB for secret notes
 
 Server-side validation
 
-✨ Core Features
+# ✨ Core Features
 1️⃣ User Authentication
 
 Signup / Login
@@ -170,7 +168,7 @@ SecretNote Model
 
 Same structure as Note Model, but stored in a separate secure DB.
 
-🔌 API Endpoints
+# 🔌 API Endpoints
 🔐 Authentication
 Method	Endpoint	Description
 POST	/api/auth/signup	Register a new user
@@ -195,7 +193,7 @@ POST	/api/secret/notes
 GET	/api/secret/notes/:id
 PUT	/api/secret/notes/:id
 DELETE	/api/secret/notes/:id
-🎨 Frontend Pages & Components
+# 🎨 Frontend Pages & Components
 Pages
 
 Landing Page
@@ -222,7 +220,7 @@ SearchBar / SecretSearchBar
 
 ThemeProvider — handles light/dark mode
 
-🔐 Security Considerations
+# 🔐 Security Considerations
 ✅ Authentication
 
 Token-based
@@ -261,7 +259,7 @@ ESLint (code quality)
 
 Concurrently (run frontend + backend together)
 
-⚙️ Environment Setup
+# ⚙️ Environment Setup
 Ports
 
 Frontend → 5173
@@ -274,7 +272,7 @@ Separate MongoDB connections
 
 CORS for cross-origin communication
 
-🏗 Build Process
+# 🏗 Build Process
 Frontend
 npm run build
 
