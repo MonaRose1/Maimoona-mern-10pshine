@@ -21,7 +21,9 @@ Secret Notes
 
 # 📁 Project Structure
 root/
+
  ├── frontend/      # React + Vite app
+ 
  └── backend/       # Node.js + Express server
 
 # 🎨 Frontend (React + Vite)
