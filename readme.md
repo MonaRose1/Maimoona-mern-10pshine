@@ -41,7 +41,7 @@ react-hook-form + Zod (form validation)
 
 lucide-react (icons)
 
-# ✅ Key Features
+✅ Key Features
 
 Component-based architecture
 
@@ -76,7 +76,7 @@ Regular Notes
 
 Secret Notes
 
-# ✅ Security Layer
+✅ Security Layer
 
 Protected routes
 
