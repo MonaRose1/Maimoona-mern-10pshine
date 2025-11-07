@@ -311,14 +311,14 @@ node server.js
 Run both (dev)
 npm run dev
 
-## 👥 Collaborators
-
-- Muhammad Noman
-  [nomanyousuf-10P]
-
 
 ✅ Summary
 
 This full-stack Note-Taking Application delivers a modern UI, smooth UX, and robust backend with strong security features including a PIN-protected Secret Safe.
 
 It's designed for efficiency, privacy, and scalability — ideal for personal use or as a portfolio-ready project.
+
+## 👥 Collaborators
+
+- Muhammad Noman
+  [nomanyousuf-10P]
