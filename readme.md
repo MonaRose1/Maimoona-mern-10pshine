@@ -172,29 +172,53 @@ Same structure as Note Model, but stored in a separate secure DB.
 
 # 🔌 API Endpoints
 🔐 Authentication
+
 Method	Endpoint	Description
+
 POST	/api/auth/signup	Register a new user
+
 POST	/api/auth/login	Login user
+
 👤 User Profile
+
 Method	Endpoint
+
 GET	/api/me
+
 📝 Regular Notes
+
 Method	Endpoint
+
 GET	/api/notes
+
 POST	/api/notes
+
 GET	/api/notes/:id
+
 PUT	/api/notes/:id
+
 DELETE	/api/notes/:id
+
 🔒 Secret Safe (PIN + Notes)
+
 Method	Endpoint
+
 POST	/api/secret/check-pin
+
 POST	/api/secret/set-pin
+
 POST	/api/secret/verify-pin
+
 GET	/api/secret/notes
+
 POST	/api/secret/notes
+
 GET	/api/secret/notes/:id
+
 PUT	/api/secret/notes/:id
+
 DELETE	/api/secret/notes/:id
+
 # 🎨 Frontend Pages & Components
 Pages
 
