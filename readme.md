@@ -1,1 +1,0 @@
-# starting my mern stack journy as intern
